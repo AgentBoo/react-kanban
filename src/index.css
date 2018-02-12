@@ -1,0 +1,29 @@
+body {
+  background: #222;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.board{
+  display: flex;
+  width: 100%;
+}
+
+.column{
+  box-sizing: border-box;
+  border: solid #fff 1px;
+  color: #fff;
+  padding: 4% 3%;
+  width: 300px;
+}
+
+.list{
+  border: solid #fff 6px;
+  border-radius: 10px;
+  color: #fff;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+  height: 468px;
+}
