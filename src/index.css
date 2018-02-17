@@ -7,23 +7,35 @@ body {
 
 .board{
   display: flex;
+  padding: 50px;
   width: 100%;
-}
-
-.column{
-  box-sizing: border-box;
-  border: solid #fff 1px;
-  color: #fff;
-  padding: 4% 3%;
-  width: 300px;
 }
 
 .list{
   border: solid #fff 6px;
   border-radius: 10px;
+  box-sizing: border-box;
   color: #fff;
   display: flex;
     align-items: center;
+    flex-flow: column nowrap;
     justify-content: center;
   height: 468px;
+  margin: 10px;
+  padding: 4% 3%;
+  width: 300px;
+}
+
+.decor-opacity{
+  opacity: 0.25;
+}
+
+.card{
+  background: #d3b6b6;
+  border-radius: 10px;
+  color: #000;
+  height: 50px;
+  margin: 1em;
+  padding: 4% 3%;
+  width: 100%;
 }

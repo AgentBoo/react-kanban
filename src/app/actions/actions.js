@@ -1,11 +1,14 @@
+// constants
+// import {} from './../constants'
 export const REORDER = 'REORDER'
 
 
 // ============================================================================ //
-export function reorder(dragSourceID, dropTargetID){
+export function reorder(sector, fromDragSourceIdx, overDropTargetIdx){
   return {
-    type: REORDER,
-    source: dragSourceID,
-    target: dropTargetID
+    type      : REORDER,
+    sector    : sector,
+    sourceIdx : fromDragSourceIdx,
+    overIdx   : overDropTargetIdx
   }
 }

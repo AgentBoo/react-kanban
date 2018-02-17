@@ -1,61 +1,130 @@
 // react
-import React, { Component } from 'react'
-// redux
-// import { connect } from 'react-redux'
+import React, { Component } from 'react';
 // dnd
-import { DragSource } from 'react-dnd'
-import { itemTypes } from './../constants'
+import { DragSource, DropTarget } from 'react-dnd';
+import { itemType } from './../constants';
 // components
+import Card from './Card'
+
+
+// ============================================================================ //
+// Component
+// ============================================================================ //
+class List extends Component{
+  componentWillReceiveProps(nextprops){
+    const { reorder, source } = this.props;
+    let draggable;
+    let sourceIdx;
+
+    if(source){
+      draggable = this.props.lists.filter((list) => list.id === source.id)[0]
+      sourceIdx = this.props.lists.indexOf(draggable);
+    }
+
+    // exit out if hovering over self
+    if(source && this.props.idx === sourceIdx){
+      // console.log('hovering over myself')
+      return
+    }
+
+    // enter handler
+    if(!this.props.isOver && nextprops.isOver){
+      return reorder('lists', sourceIdx, this.props.idx)
+    }
+  };
+
+  renderCard(card, i){
+    const { cards, reorder } = this.props;
+    const { id, text } = card;
+    return(
+      <Card key={ id } idx={ i } id={ id } reorder={ reorder } cards={ cards } text={ text }/>
+    )
+  }
+
+
+  render(){
+    const { idx, lists } = this.props;
+    const cardsload = lists[idx].cards.map((card, i) => this.renderCard(card, i));
+
+    // props injected by React DnD -- as specified in collect()
+    const { isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { label } = this.props;
+
+    let listStyle = isDragging ? 'list decor-opacity' : 'list';
+
+    return connectDragSource(
+      connectDropTarget(
+        <div className={ listStyle }>
+          <h5> { label } </h5>
+          { cardsload }
+        </div>
+      )
+    )
+  };
+};
 
 
 
 // ============================================================================ //
-class List extends Component{
-  render(){
-    // props injected by React DnD as defined by collect()
-    const { connectDragSource } = this.props;
-    const { label } = this.props;
+// React DnD stuff
+// ============================================================================ //
 
-    // true || (non-bool) returns true, ignores (non-bool)
-    // aka to return the .list component, isDragging must be false ...
-    return connectDragSource(
-      <div>
-        <div className="list"> { label } </div>
-      </div>
-    )
-  }
-}
-
-
-
-// specifies the Drag Source contract specification
-// only .beginDrag(props, monitor) method is required for drag sources
-const dragSourceContract = {
-  beginDrag(props){
-
-    // return the data describing the draggable item => list index
+// NOTE: DragSource() arguments
+// ====================================== //
+// Drag Source contract specification -- only .beginDrag(props, monitor) method is required for drag source contracts
+const listSourceContract = {
+  beginDrag(props, monitor){
+    // return object describing the draggable list, e.g list.id
     const dragSource = {
-      index: props.index
+      id  : props.id,
+      idx : props.idx
     }
     return dragSource
-  },
-  endDrag(props){
-    console.log('end drag')
   }
-}
+};
 
-// collect() tells DragSource()() which props to inject into your component
-// collect() called inside DragSource() is using DragSourceMonitor as monitor param
-function collect(connector, monitor){
+// collect() tells DragSource()() or DropTarget()(), which props to inject into your component
+// collect() called inside DragSource() uses DragSourceMonitor as monitor
+function collectDragProps(connector, monitor){
   return {
     // connectDragSource() will be called inside render(), to let React DnD handle the drag events
     connectDragSource : connector.dragSource(),
     // ask the monitor about the current drag state
-    isDragging        : monitor.isDragging()
+    isDragging        : monitor.isDragging(),
+    // what is being dragged
+    source            : monitor.getItem()
   }
-}
+};
+
+
+// NOTE: DropTarget arguments
+// ====================================== //
+
+// Drop Target contract specification -- nothing is required for drop target contracts
+const listTargetContract = {
+  drop(props, monitor){
+    const dropTarget = {
+      id  : props.id,
+      idx : props.idx
+    }
+    return dropTarget
+  }
+};
+
+// collect() called inside DragSource() uses DropTargetMonitor as monitor
+function collectDropProps(connector, monitor){
+  return {
+    // connectDropTarget() will be called inside render(), to let React DnD handle the drag events
+    connectDropTarget  : connector.dropTarget(),
+    // is anything hovering over the drop target + this enables the use of componentWillReceiveProps()
+    isOver             : monitor.isOver()
+  }
+};
 
 
 // DragSource(type, spec, collect)(Component);
-List = DragSource(itemTypes.LIST, dragSourceContract, collect)(List);
+// DropTarget(type, spec, collect)(Component);
+List = DragSource(itemType.LIST, listSourceContract, collectDragProps)(List);
+List = DropTarget([itemType.LIST, itemType.CARD], listTargetContract, collectDropProps)(List);
+
 export default List;

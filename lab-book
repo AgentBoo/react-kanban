@@ -58,3 +58,64 @@ npm i -S react-dnd react-dnd-html5-backend react-redux
 * setup Column as DropTarget()
 * define an action in actions.js and dispatch it from hover() [inside dropTargetContract]
 * adjust reducer to know about the action
+
+
+
+class ListCtn extends Component{
+  componentWillReceiveProps(nextProps){
+    const { dragSource, reorder } = this.props;
+
+    // enter handler
+    if (!this.props.isOver && nextProps.isOver) {
+      return reorder(dragSource.index, this.props.index)
+    }
+  }
+
+  render(){
+    // props injected by React DnD as defined by collect()
+    const { connectDropTarget } = this.props;
+
+    // false && (non-bool) returns false, ignores (non-bool)
+    // aka to return the this.props.id, isOver must be true ...
+    return connectDropTarget(
+      <div className="column">
+        { this.props.children }
+      </div>
+    )
+  }
+}
+
+
+
+// specifies the Drop Target contract specification
+// nothing is really required inside this spec
+const dropTargetContract = {
+  drop(props, monitor){
+    // return the data describing the droppable item => column index
+    const dropTarget = { index: props.index }
+    return dropTarget
+  }
+}
+
+// collect() tells DropTarget()() which props to inject into your component
+// collect() called inside DropTarget()() is using DropTargetMonitor as monitor param
+function collect(connector, monitor){
+  return {
+    // connectDropTarget() will be called inside render(), to let React DnD handle the drop events
+    connectDropTarget: connector.dropTarget(),
+    isOver: monitor.isOver(),
+    isOverCurrent: monitor.isOver({ shallow: true }),
+    dragSource: monitor.getItem()
+  }
+}
+
+
+
+X/ Notable 1
+* List component organized as empty <div> in plain <div> gives you an interesting 'return' gradually effect in chrome 64.0.3282.140
+    return connectDragSource(
+      <div>
+        <div className="list"></div>
+      </div>
+    )
+* if it's not empty, it renders the return abruptly as usual =/
