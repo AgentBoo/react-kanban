@@ -1,7 +1,7 @@
 // react
 // redux
 import { connect } from 'react-redux';
-import { shiftList } from './../actions/actions';
+import { shiftList, transitCard } from './../actions/actions';
 // components
 import List from './List';
 
@@ -12,6 +12,6 @@ import List from './List';
 
 // Supralist is the List's container component
 // connect(mapStateToProps, mapDispatchToProps)(Component);
-const Supralist = connect(null, { shiftList })(List);
+const Supralist = connect(null, { shiftList, transitCard })(List);
 
 export default Supralist;

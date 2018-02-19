@@ -10,6 +10,7 @@ import Supralist from './Supralist';
 import Supracard from './Supracard';
 
 
+
 // ============================================================================ //
 // Component
 // ============================================================================ //
@@ -18,7 +19,7 @@ class Board extends Component{
     const { id, text } = card;
 
     return(
-      <Supracard key={ id } id={ id } idx={ i } list={ listIdx } text={ text }/>
+      <Supracard key={ id } id={ id } idx={ i } list={ listIdx } text={ text } />
     )
   }
 

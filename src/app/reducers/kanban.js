@@ -16,20 +16,18 @@ let initState = {
       label : 'A',
       cards : [{ id  : 1, text : 'a' },
                { id  : 2, text : 'b' },
-               { id  : 3, text : 'c' },
-               { id  : 4}]
+               { id  : 3, text : 'c' }]
     },
     {
       id    : 2,
       label : 'B',
       cards : [{ id  : 5, text : 'd' },
-               { id  : 6, text : 'e' },
-               { id  : 7}]
+               { id  : 6, text : 'e' }]
     },
     {
       id    : 3,
       label : 'C',
-      cards : [{ id  : 8}]
+      cards : []
     },
   ]
 }
@@ -65,7 +63,6 @@ function kanban(state = initState, action){
 
     case SHIFT_CARD:
       //  will update nested properties
-      console.log('shift card')
       const { sourceId, sourceListIdx, overIdx } = action;
 
       const cards = Array.from(state.lists[sourceListIdx].cards);
@@ -85,9 +82,9 @@ function kanban(state = initState, action){
 
     case TRANSIT_CARD:
       // will update nested properties
-      console.log('transit card')
       const { sourceId: m, sourceListIdx: n, overIdx: o, targetListIdx: p } = action;
 
+      console.log(state.lists[n])
       const q1 = Array.from(state.lists[n].cards);
       const q2 = Array.from(state.lists[p].cards);
 

@@ -26,7 +26,7 @@ export function shiftCard(fromDragSourceId, fromListIdx, overDropTargetIdx){
 
 
 // to transit means to pass across an area -- transitCard() moves a card across lanes
-export function transitCard(fromDragSourceId, fromListIdx, overDropTargetIdx = 0, intoListIdx = 0){
+export function transitCard(fromDragSourceId, fromListIdx, overDropTargetIdx = null, intoListIdx = null){
   return {
     type           : TRANSIT_CARD,
     sourceId       : fromDragSourceId,

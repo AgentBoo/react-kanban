@@ -46,6 +46,10 @@ const cardSourceContract = {
       list: props.list
     }
     return dragSource
+  },
+  // not an issue, but fyi from DragSource docs or react-dnd issues 227 to make isDragging work as it should from UX standpoint
+  isDragging(props, monitor){
+    return props.id === monitor.getItem().id
   }
 };
 
@@ -81,15 +85,19 @@ const cardTargetContract = {
       return
     }
 
+    if(!!props.list.cards){
+      console.log('empty')
+      return 
+    }
+
     if(monitor.getItem().list === props.list){
-      return props.shiftCard(monitor.getItem().id, monitor.getItem().list, props.idx);
+      props.shiftCard(monitor.getItem().id, monitor.getItem().list, props.idx);
+      return
     } else {
       props.transitCard(monitor.getItem().id, monitor.getItem().list, props.idx, props.list);
       monitor.getItem().list = props.list;
       return
     }
-
-
   }
 };
 
@@ -99,7 +107,7 @@ function collectDropProps(connector, monitor){
     // connectDropTarget() will be called inside render(), to let React DnD handle the drag events
     connectDropTarget  : connector.dropTarget(),
     // is anything hovering over the drop target + this enables the use of componentWillReceiveProps()
-    // isOver             : monitor.isOver()
+    isOver             : monitor.isOver()
   }
 };
 

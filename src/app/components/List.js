@@ -81,7 +81,15 @@ const listTargetContract = {
       return
     }
 
-    props.shiftList(monitor.getItem().id, props.idx);
+    if(monitor.getItemType() === itemType.CARD && monitor.getItem().list !== props.idx){
+      props.transitCard(monitor.getItem().id, monitor.getItem().list, 0, props.idx);
+      monitor.getItem().list = props.idx;
+      return
+    }
+
+    if(monitor.getItemType() === itemType.LIST){
+      return props.shiftList(monitor.getItem().id, props.idx);
+    }
   }
 };
 
@@ -99,6 +107,6 @@ function collectDropProps(connector, monitor){
 // DragSource(type, spec, collect)(Component);
 // DropTarget(type, spec, collect)(Component);
 List = DragSource(itemType.LIST, listSourceContract, collectDragProps)(List);
-List = DropTarget(itemType.LIST, listTargetContract, collectDropProps)(List);
+List = DropTarget([itemType.LIST, itemType.CARD], listTargetContract, collectDropProps)(List);
 
 export default List;
