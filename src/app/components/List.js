@@ -87,7 +87,7 @@ const listTargetSpec = {
 
     // am I a list hovering over another list? Ok, dispatch shiftList()
     if(monitor.getItemType() === itemType.LIST){
-      // shiftList(source.id, destination.idx)
+      // shiftList(origin.id, destination.idx)
       props.shiftList(dragSource.id, props.idx)
       return
     }

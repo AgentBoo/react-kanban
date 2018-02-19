@@ -6,23 +6,23 @@ import { actionType } from './constants';
 // ============================================================================ //
 // Actions
 // ============================================================================ //
-// shiftList(source.id, destination.idx)
+// shiftList(origin.id, destination.idx)
 export function shiftList(fromDragSourceId, overDropTargetIdx){
   return {
-    type      : SHIFT_LIST,
-    sourceId  : fromDragSourceId,
-    overIdx   : overDropTargetIdx
+    type        : SHIFT_LIST,
+    origin      : fromDragSourceId,
+    destination : overDropTargetIdx
   }
 };
 
 
-// shiftCard(source.id, origin.idx, destination.idx)
+// shiftCard(source.id, origin.idx, target.idx)
 export function shiftCard(fromDragSourceId, fromListIdx, overDropTargetIdx){
   return {
-    type          : SHIFT_CARD,
-    sourceId      : fromDragSourceId,
-    sourceListIdx : fromListIdx,
-    overIdx       : overDropTargetIdx
+    type        : SHIFT_CARD,
+    source      : fromDragSourceId,
+    origin      : fromListIdx,
+    target      : overDropTargetIdx
   }
 };
 
@@ -31,10 +31,10 @@ export function shiftCard(fromDragSourceId, fromListIdx, overDropTargetIdx){
 // transitCard(source.id, origin.idx, target.idx, destination.idx)
 export function transitCard(fromDragSourceId, fromListIdx, overDropTargetIdx = null, intoListIdx = null){
   return {
-    type           : TRANSIT_CARD,
-    sourceId       : fromDragSourceId,
-    sourceListIdx  : fromListIdx,
-    overIdx        : overDropTargetIdx,
-    targetListIdx  : intoListIdx
+    type        : TRANSIT_CARD,
+    source      : fromDragSourceId,
+    origin      : fromListIdx,
+    target      : overDropTargetIdx,
+    destination : intoListIdx
   }
 };

@@ -89,7 +89,7 @@ const cardTargetSpec = {
     // am I hovering over another card within the same list? Ok, dispatch shiftCard()
     // or am I hovering over another card in another list? Ok, dispatch transitCard()
     if(card.list === props.list){
-      // shiftCard(source.id, origin.idx, destination.idx)
+      // shiftCard(source.id, origin.idx, target.idx)
       props.shiftCard(card.id, card.list, props.idx)
       return
     } else {
