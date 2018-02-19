@@ -75,25 +75,28 @@ const listTargetSpec = {
   // hover() is called when a drag source is hovering over a drop target component
   // hover() is fired very often (...that would be an understatement)
   hover(props, monitor){
+    // NOTE: calling props.dragSource() is NOT the same as calling monitor.getItem()
     // if a drag source is a list, id will point to list.id
     // if a drag source is a card, id will point to card.id
-    const dragSourceId = monitor.getItem().id
+    const dragSource = monitor.getItem();
 
     // am I hovering over self? Ok, stop right here
-    if(dragSourceId === props.id){
+    if(dragSource.id === props.id){
       return
     }
 
     // am I a list hovering over another list? Ok, dispatch shiftList()
     if(monitor.getItemType() === itemType.LIST){
-      props.shiftList(dragSourceId, props.idx)
+      // shiftList(source.id, destination.idx)
+      props.shiftList(dragSource.id, props.idx)
       return
     }
 
     // am I a card hovering over an empty area of another list? Ok, dispatch transitCard()
-    if(monitor.getItemType() === itemType.CARD && monitor.getItem().list !== props.idx){
+    if(monitor.getItemType() === itemType.CARD && dragSource.list !== props.idx){
       // REVIEW: There are issues with hovering a card.id = 1 over empty list.id = 1, or 2 over 2 ...
-      props.transitCard(dragSourceId, monitor.getItem().list, 0, props.idx);
+      // transitCard(source.id, origin.idx, target.idx, destination.idx)
+      props.transitCard(dragSource.id, dragSource.list, 0, props.idx);
       monitor.getItem().list = props.idx;
       return
     }

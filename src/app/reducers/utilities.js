@@ -2,12 +2,6 @@
 // Reusable utility functions
 // ============================================================================ //
 
-// NOTE: Encapsulate creating an updated deep copy
-export function updateObject(currentObject, updatedValues){
-  return Object.assign({}, currentObject, updatedValues);
-};
-
-
 // NOTE: Lookup index of an item -- .findIndex() v .indexOf(), the latter is enough since I am not interested in NaNs etc
 export function retrieveIdx(attribute, arr){
   // arrow syntax for readability
@@ -16,15 +10,23 @@ export function retrieveIdx(attribute, arr){
   return arr.indexOf(result);
 };
 
+
+// NOTE: Encapsulate creation of an updated deep copy
+export function updateObject(currentObject, updates){
+  // Object.assign(targetObject, ...sources), so: Object.assign({}, object1, object2)
+  return Object.assign({}, currentObject, updates);
+};
+
+
 // NOTE: Update item in array
-export function updateArray(currentArray, targetIdx, updatedValues){
-  const updatedArray = currentArray.map(function(item, i){
+export function updateArray(currentArray, targetIdx, updates){
+  const updated = currentArray.map(function(item, i){
     if(i === targetIdx){
-      return updateObject(item, updatedValues)
+      return updateObject(item, updates)
     }
 
     return item
   });
 
-  return updatedArray;
+  return updated;
 };

@@ -75,24 +75,26 @@ function collectDragProps(connector, monitor){
 
 // Drop Target contract SPECIFICATION -- nothing is required for drop target contracts
 const cardTargetSpec = {
+  // NOTE: calling props.dragSource() is NOT the same as calling monitor.getItem()
   // hover() is called when a drag source is hovering over a drop target component
   // hover() is fired very often (...that would be an understatement)
   hover(props, monitor){
-    const cardId = monitor.getItem().id
-    const cardList = monitor.getItem().list
+    const card = monitor.getItem()
 
     // am I hovering over self? Ok, stop right here
-    if(cardId === props.id){
+    if(card.id === props.id){
       return
     }
 
     // am I hovering over another card within the same list? Ok, dispatch shiftCard()
     // or am I hovering over another card in another list? Ok, dispatch transitCard()
-    if(cardList === props.list){
-      props.shiftCard(cardId, cardList, props.idx)
+    if(card.list === props.list){
+      // shiftCard(source.id, origin.idx, destination.idx)
+      props.shiftCard(card.id, card.list, props.idx)
       return
     } else {
-      props.transitCard(cardId, cardList, props.idx, props.list)
+      // transitCard(source.id, origin.idx, target.idx, destination.idx)
+      props.transitCard(card.id, card.list, props.idx, props.list)
       monitor.getItem().list = props.list
       return
     }
