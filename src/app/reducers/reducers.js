@@ -7,56 +7,56 @@ import { updateObject, updateArray, retrieveIdx } from './utilities'
 // Case reducers
 // ============================================================================ //
 // List Case reducer
-export function shiftList(currentState, action){
+export function shiftList(state, action){
   // do not have to worry about nested properties when reordering lists
-  const lists = Array.from(currentState.cardlists);
-  const { origin, destination } = action;
+  const lists = Array.from(state.cardlists);
+  const { originId, destinationIdx } = action;
 
-  const originIdx = retrieveIdx(origin, lists);
+  const originIdx = retrieveIdx(originId, lists);
   const removed = lists.splice(originIdx, 1)[0];
 
-  lists.splice(destination, 0, removed);
+  lists.splice(destinationIdx, 0, removed);
 
-  return updateObject(currentState, { cardlists: lists });
+  return updateObject(state, { cardlists: lists });
 };
 
 
 // Card Case reducer
-export function shiftCard(currentState, action){
+export function shiftCard(state, action){
   // I do have to worry about updating nested properties
-  const { source, origin, target } = action;
-  const cards = Array.from(currentState.cardlists[origin].cards);
+  const { sourceId, originIdx, targetIdx } = action;
+  const cards = Array.from(state.cardlists[originIdx].cards);
 
-  const sourceIdx = retrieveIdx(source, cards);
+  const sourceIdx = retrieveIdx(sourceId, cards);
   const removed = cards.splice(sourceIdx, 1)[0];
 
-  cards.splice(target, 0, removed);
+  cards.splice(targetIdx, 0, removed);
 
-  const lists = updateArray(currentState.cardlists, origin, { cards });
+  const lists = updateArray(state.cardlists, originIdx, { cards });
 
-  return updateObject(currentState, { cardlists: lists });
+  return updateObject(state, { cardlists: lists });
 };
 
 
 // Card Case reducer
-export function transitCard(currentState, action){
+export function transitCard(state, action){
   // I do have to worry about updating nested properties
-  const { source, origin, target, destination } = action;
+  const { sourceId, originIdx, targetIdx, destinationIdx } = action;
 
-  const ocards = Array.from(currentState.cardlists[origin].cards);
-  const dcards = Array.from(currentState.cardlists[destination].cards);
+  const origin = Array.from(state.cardlists[originIdx].cards);
+  const destination = Array.from(state.cardlists[destinationIdx].cards);
 
-  const sourceIdx = retrieveIdx(source, ocards);
-  const removed = ocards.splice(sourceIdx, 1)[0];
+  const sourceIdx = retrieveIdx(sourceId, origin);
+  const removed = origin.splice(sourceIdx, 1)[0];
 
-  dcards.splice(target, 0, removed);
+  destination.splice(targetIdx, 0, removed);
 
-  return Object.assign({}, currentState, {
-    cardlists: currentState.cardlists.map(function(list, i){
-      if(i === origin){
-        return updateObject(list, { cards: ocards })
-      } else if (i === destination){
-        return updateObject(list, { cards: dcards })
+  return Object.assign({}, state, {
+    cardlists: state.cardlists.map(function(list, i){
+      if(i === originIdx){
+        return updateObject(list, { cards: origin })
+      } else if (i === destinationIdx){
+        return updateObject(list, { cards: destination })
       }
 
       return list

@@ -9,9 +9,9 @@ import { actionType } from './constants';
 // shiftList(origin.id, destination.idx)
 export function shiftList(fromDragSourceId, overDropTargetIdx){
   return {
-    type        : SHIFT_LIST,
-    origin      : fromDragSourceId,
-    destination : overDropTargetIdx
+    type           : SHIFT_LIST,
+    originId       : fromDragSourceId,
+    destinationIdx : overDropTargetIdx
   }
 };
 
@@ -19,10 +19,10 @@ export function shiftList(fromDragSourceId, overDropTargetIdx){
 // shiftCard(source.id, origin.idx, target.idx)
 export function shiftCard(fromDragSourceId, fromListIdx, overDropTargetIdx){
   return {
-    type        : SHIFT_CARD,
-    source      : fromDragSourceId,
-    origin      : fromListIdx,
-    target      : overDropTargetIdx
+    type           : SHIFT_CARD,
+    sourceId       : fromDragSourceId,
+    originIdx      : fromListIdx,
+    targetIdx      : overDropTargetIdx
   }
 };
 
@@ -31,10 +31,10 @@ export function shiftCard(fromDragSourceId, fromListIdx, overDropTargetIdx){
 // transitCard(source.id, origin.idx, target.idx, destination.idx)
 export function transitCard(fromDragSourceId, fromListIdx, overDropTargetIdx = null, intoListIdx = null){
   return {
-    type        : TRANSIT_CARD,
-    source      : fromDragSourceId,
-    origin      : fromListIdx,
-    target      : overDropTargetIdx,
-    destination : intoListIdx
+    type           : TRANSIT_CARD,
+    sourceId       : fromDragSourceId,
+    originIdx      : fromListIdx,
+    targetIdx      : overDropTargetIdx,
+    destinationIdx : intoListIdx
   }
 };
