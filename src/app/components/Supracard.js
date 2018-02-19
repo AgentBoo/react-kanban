@@ -1,17 +1,17 @@
 // react
 // redux
 import { connect } from 'react-redux';
-import { shiftList } from './../actions/actions';
+import { shiftCard, transitCard } from './../actions/actions';
 // components
-import List from './List';
+import Card from './Card';
 
 
 // ============================================================================ //
 // Redux stuff
 // ============================================================================ //
 
-// Supralist is the List's container component
+// Supracard is the Card's container component
 // connect(mapStateToProps, mapDispatchToProps)(Component);
-const Supralist = connect(null, { shiftList })(List);
+const Supracard = connect(null, { shiftCard, transitCard })(Card);
 
-export default Supralist;
+export default Supracard;

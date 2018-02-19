@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // dnd
 import { DragSource, DropTarget } from 'react-dnd';
 import { itemType } from './../constants';
+// components
 
 
 // ============================================================================ //
@@ -10,12 +11,18 @@ import { itemType } from './../constants';
 // ============================================================================ //
 class Card extends Component{
   render(){
-    const { connectDragSource, connectDropTarget } = this.props;
+    // props injected by React DnD -- as specified in collect()
+    const { isDragging, connectDragSource, connectDropTarget } = this.props;
     const { text } = this.props;
+
+    let cardStyle = isDragging ? 'card decor-opacity' : 'card';
 
     return connectDragSource(
       connectDropTarget(
-        <div className="card"> { text } </div>
+        <div className={ cardStyle }>
+          { text }
+          { this.props.children }
+        </div>
       )
     )
   }
@@ -29,27 +36,37 @@ class Card extends Component{
 
 // NOTE: DragSource() arguments
 // ====================================== //
+// Drag Source contract SPECIFICATION -- only .beginDrag(props, monitor) method is required for drag source contracts
 const cardSourceContract = {
   beginDrag(props, monitor){
+    // return object describing the draggable card, e.g card.id
     const dragSource = {
       id  : props.id,
-      idx : props.idx
+      idx : props.idx,
+      list: props.list
     }
     return dragSource
   }
 };
 
+// collect() tells DragSource()() or DropTarget()(), which props to inject into your component
+// collect() called inside DragSource() uses DragSourceMonitor as monitor
 function collectDragProps(connector, monitor){
   return {
+    // connectDragSource() will be called inside render(), to let React DnD handle the drag events
     connectDragSource : connector.dragSource(),
+    // ask the monitor about the current drag state
     isDragging        : monitor.isDragging(),
-    source            : monitor.getItem()
+    // what is being dragged
+    dragSource        : monitor.getItem()
   }
 };
 
 
 // NOTE: DropTarget arguments
 // ====================================== //
+
+// Drop Target contract SPECIFICATION -- nothing is required for drop target contracts
 const cardTargetContract = {
   drop(props, monitor){
     const dropTarget = {
@@ -57,12 +74,32 @@ const cardTargetContract = {
       idx : props.idx
     }
     return dropTarget
+  },
+
+  hover(props, monitor){
+    if(monitor.getItem().id === props.id){
+      return
+    }
+
+    if(monitor.getItem().list === props.list){
+      return props.shiftCard(monitor.getItem().id, monitor.getItem().list, props.idx);
+    } else {
+      props.transitCard(monitor.getItem().id, monitor.getItem().list, props.idx, props.list);
+      monitor.getItem().list = props.list;
+      return
+    }
+
+
   }
 };
 
+// collect() called inside DragSource() uses DropTargetMonitor as monitor
 function collectDropProps(connector, monitor){
   return {
-    connectDropTarget : connector.dropTarget()
+    // connectDropTarget() will be called inside render(), to let React DnD handle the drag events
+    connectDropTarget  : connector.dropTarget(),
+    // is anything hovering over the drop target + this enables the use of componentWillReceiveProps()
+    // isOver             : monitor.isOver()
   }
 };
 

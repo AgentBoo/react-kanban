@@ -1,14 +1,37 @@
 // constants
-// import {} from './../constants'
-export const REORDER = 'REORDER'
+import { actionType } from './../constants'
+const { SHIFT_LIST, SHIFT_CARD, TRANSIT_CARD } = actionType;
 
 
 // ============================================================================ //
-export function reorder(sector, fromDragSourceIdx, overDropTargetIdx){
+// Actions
+// ============================================================================ //
+export function shiftList(fromDragSourceId, overDropTargetIdx){
   return {
-    type      : REORDER,
-    sector    : sector,
-    sourceIdx : fromDragSourceIdx,
+    type      : SHIFT_LIST,
+    sourceId  : fromDragSourceId,
     overIdx   : overDropTargetIdx
   }
-}
+};
+
+
+export function shiftCard(fromDragSourceId, fromListIdx, overDropTargetIdx){
+  return {
+    type          : SHIFT_CARD,
+    sourceId      : fromDragSourceId,
+    sourceListIdx : fromListIdx,
+    overIdx       : overDropTargetIdx
+  }
+};
+
+
+// to transit means to pass across an area -- transitCard() moves a card across lanes
+export function transitCard(fromDragSourceId, fromListIdx, overDropTargetIdx = 0, intoListIdx = 0){
+  return {
+    type           : TRANSIT_CARD,
+    sourceId       : fromDragSourceId,
+    sourceListIdx  : fromListIdx,
+    overIdx        : overDropTargetIdx,
+    targetListIdx  : intoListIdx
+  }
+};

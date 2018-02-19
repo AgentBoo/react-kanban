@@ -4,59 +4,25 @@ import React, { Component } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import { itemType } from './../constants';
 // components
-import Card from './Card'
 
 
 // ============================================================================ //
 // Component
 // ============================================================================ //
 class List extends Component{
-  componentWillReceiveProps(nextprops){
-    const { reorder, source } = this.props;
-    let draggable;
-    let sourceIdx;
-
-    if(source){
-      draggable = this.props.lists.filter((list) => list.id === source.id)[0]
-      sourceIdx = this.props.lists.indexOf(draggable);
-    }
-
-    // exit out if hovering over self
-    if(source && this.props.idx === sourceIdx){
-      // console.log('hovering over myself')
-      return
-    }
-
-    // enter handler
-    if(!this.props.isOver && nextprops.isOver){
-      return reorder('lists', sourceIdx, this.props.idx)
-    }
-  };
-
-  renderCard(card, i){
-    const { cards, reorder } = this.props;
-    const { id, text } = card;
-    return(
-      <Card key={ id } idx={ i } id={ id } reorder={ reorder } cards={ cards } text={ text }/>
-    )
-  }
-
-
   render(){
-    const { idx, lists } = this.props;
-    const cardsload = lists[idx].cards.map((card, i) => this.renderCard(card, i));
-
     // props injected by React DnD -- as specified in collect()
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
     const { label } = this.props;
 
     let listStyle = isDragging ? 'list decor-opacity' : 'list';
 
+
     return connectDragSource(
       connectDropTarget(
         <div className={ listStyle }>
           <h5> { label } </h5>
-          { cardsload }
+          { this.props.children }
         </div>
       )
     )
@@ -71,7 +37,7 @@ class List extends Component{
 
 // NOTE: DragSource() arguments
 // ====================================== //
-// Drag Source contract specification -- only .beginDrag(props, monitor) method is required for drag source contracts
+// Drag Source contract SPECIFICATION -- only .beginDrag(props, monitor) method is required for drag source contracts
 const listSourceContract = {
   beginDrag(props, monitor){
     // return object describing the draggable list, e.g list.id
@@ -92,7 +58,7 @@ function collectDragProps(connector, monitor){
     // ask the monitor about the current drag state
     isDragging        : monitor.isDragging(),
     // what is being dragged
-    source            : monitor.getItem()
+    dragSource        : monitor.getItem()
   }
 };
 
@@ -100,7 +66,7 @@ function collectDragProps(connector, monitor){
 // NOTE: DropTarget arguments
 // ====================================== //
 
-// Drop Target contract specification -- nothing is required for drop target contracts
+// Drop Target contract SPECIFICATION -- nothing is required for drop target contracts
 const listTargetContract = {
   drop(props, monitor){
     const dropTarget = {
@@ -108,6 +74,14 @@ const listTargetContract = {
       idx : props.idx
     }
     return dropTarget
+  },
+
+  hover(props, monitor){
+    if(monitor.getItem().id === props.id){
+      return
+    }
+
+    props.shiftList(monitor.getItem().id, props.idx);
   }
 };
 
@@ -125,6 +99,6 @@ function collectDropProps(connector, monitor){
 // DragSource(type, spec, collect)(Component);
 // DropTarget(type, spec, collect)(Component);
 List = DragSource(itemType.LIST, listSourceContract, collectDragProps)(List);
-List = DropTarget([itemType.LIST, itemType.CARD], listTargetContract, collectDropProps)(List);
+List = DropTarget(itemType.LIST, listTargetContract, collectDropProps)(List);
 
 export default List;
