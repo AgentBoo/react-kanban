@@ -13,20 +13,25 @@ let initState = {
   lists : [
     {
       id    : 1,
-      label : 'A',
-      cards : [{ id  : 1, text : 'a' },
-               { id  : 2, text : 'b' },
-               { id  : 3, text : 'c' }]
+      label : 'List 1',
+      cards : [{ id  : 1, text : '1' },
+               { id  : 2, text : '2' },
+               { id  : 3, text : '3' },
+               { id  : 4, text : '4' },
+               { id  : 5, text : '5' },
+               { id  : 6, text : '6' },
+               { id  : 7, text : '7' },
+               { id  : 8, text : '8' }]
     },
     {
       id    : 2,
-      label : 'B',
-      cards : [{ id  : 5, text : 'd' },
-               { id  : 6, text : 'e' }]
+      label : 'List 2',
+      cards : [{ id  : 9, text : '9' },
+               { id  : 10, text : '10'}]
     },
     {
       id    : 3,
-      label : 'C',
+      label : 'list 3',
       cards : []
     },
   ]

@@ -20,9 +20,13 @@ class List extends Component{
 
     return connectDragSource(
       connectDropTarget(
-        <div className={ listStyle }>
-          <h5> { label } </h5>
-          { this.props.children }
+        <div>
+          <div className={ listStyle }>
+            <h5 className="list-label"> { label } </h5>
+            <div className="list-cards">
+              { this.props.children }
+            </div>
+          </div>
         </div>
       )
     )

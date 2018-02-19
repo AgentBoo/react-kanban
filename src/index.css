@@ -7,35 +7,47 @@ body {
 
 .board{
   display: flex;
-  padding: 50px;
-  width: 100%;
+    align-items: flex-start;
+    flex-flow: row wrap;
+  padding: 34px 0px 34px 56px;
 }
 
 .list{
-  border: solid #fff 6px;
-  border-radius: 10px;
+  background: #F3F7F0;
+  border: solid #888 1px;
+  border-radius: 2px;
   box-sizing: border-box;
-  color: #fff;
+  color: #656839;
   display: flex;
-    align-items: center;
     flex-flow: column nowrap;
-    justify-content: center;
-  height: 468px;
-  margin: 10px;
-  padding: 4% 3%;
-  width: 300px;
+  height: 100%;
+  margin: 1em;
+  padding: 1em;
+}
+
+.list > .list-label{
+  border-bottom: solid #D1D1D1 1px;
+  box-sizing: border-box;
+  padding: 1.69em 0.5em 1.5em;
+}
+
+.list > .list-cards{
+  display: flex;
+    flex-flow: row wrap;
+  width: 264px;
+}
+
+.card{
+  background: #F2545B;
+  box-sizing: border-box;
+  color: #F3F7F0;
+  height: 50px;
+  margin: 0.5em;
+  padding: 1em;
+  text-align: center;
+  width: 50px;
 }
 
 .decor-opacity{
   opacity: 0.25;
-}
-
-.card{
-  background: #d3b6b6;
-  border-radius: 10px;
-  color: #000;
-  height: 50px;
-  margin: 1em;
-  padding: 4% 3%;
-  width: 100%;
 }

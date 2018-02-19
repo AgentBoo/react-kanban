@@ -87,7 +87,7 @@ const cardTargetContract = {
 
     if(!!props.list.cards){
       console.log('empty')
-      return 
+      return
     }
 
     if(monitor.getItem().list === props.list){
