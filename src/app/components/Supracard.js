@@ -1,7 +1,7 @@
 // react
 // redux
 import { connect } from 'react-redux';
-import { shiftCard, transitCard } from './../actions/actions';
+import { shiftCard, transitCard } from './../actions';
 // components
 import Card from './Card';
 

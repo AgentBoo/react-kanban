@@ -15,17 +15,15 @@ class List extends Component{
     const { isDragging, connectDragSource, connectDropTarget } = this.props;
     const { label } = this.props;
 
-    let listStyle = isDragging ? 'list decor-opacity' : 'list';
+    let listStyle = isDragging ? 'list low-opacity' : 'list';
 
 
     return connectDragSource(
       connectDropTarget(
-        <div>
-          <div className={ listStyle }>
-            <h5 className="list-label"> { label } </h5>
-            <div className="list-cards">
-              { this.props.children }
-            </div>
+        <div className={ listStyle }>
+          <h5 className="list-label"> { label } </h5>
+          <div className="list-cards">
+            { this.props.children }
           </div>
         </div>
       )
@@ -42,7 +40,7 @@ class List extends Component{
 // NOTE: DragSource() arguments
 // ====================================== //
 // Drag Source contract SPECIFICATION -- only .beginDrag(props, monitor) method is required for drag source contracts
-const listSourceContract = {
+const listSourceSpec = {
   beginDrag(props, monitor){
     // return object describing the draggable list, e.g list.id
     const dragSource = {
@@ -52,6 +50,7 @@ const listSourceContract = {
     return dragSource
   }
 };
+
 
 // collect() tells DragSource()() or DropTarget()(), which props to inject into your component
 // collect() called inside DragSource() uses DragSourceMonitor as monitor
@@ -67,35 +66,41 @@ function collectDragProps(connector, monitor){
 };
 
 
+
 // NOTE: DropTarget arguments
 // ====================================== //
 
 // Drop Target contract SPECIFICATION -- nothing is required for drop target contracts
-const listTargetContract = {
-  drop(props, monitor){
-    const dropTarget = {
-      id  : props.id,
-      idx : props.idx
-    }
-    return dropTarget
-  },
-
+const listTargetSpec = {
+  // hover() is called when a drag source is hovering over a drop target component
+  // hover() is fired very often (...that would be an understatement)
   hover(props, monitor){
-    if(monitor.getItem().id === props.id){
+    // if a drag source is a list, id will point to list.id
+    // if a drag source is a card, id will point to card.id
+    const dragSourceId = monitor.getItem().id
+
+    // am I hovering over self? Ok, stop right here
+    if(dragSourceId === props.id){
       return
     }
 
+    // am I a list hovering over another list? Ok, dispatch shiftList()
+    if(monitor.getItemType() === itemType.LIST){
+      props.shiftList(dragSourceId, props.idx)
+      return
+    }
+
+    // am I a card hovering over an empty area of another list? Ok, dispatch transitCard()
     if(monitor.getItemType() === itemType.CARD && monitor.getItem().list !== props.idx){
-      props.transitCard(monitor.getItem().id, monitor.getItem().list, 0, props.idx);
+      // REVIEW: There are issues with hovering a card.id = 1 over empty list.id = 1, or 2 over 2 ...
+      props.transitCard(dragSourceId, monitor.getItem().list, 0, props.idx);
       monitor.getItem().list = props.idx;
       return
     }
 
-    if(monitor.getItemType() === itemType.LIST){
-      return props.shiftList(monitor.getItem().id, props.idx);
-    }
   }
 };
+
 
 // collect() called inside DragSource() uses DropTargetMonitor as monitor
 function collectDropProps(connector, monitor){
@@ -108,9 +113,12 @@ function collectDropProps(connector, monitor){
 };
 
 
+
+// ====================================== //
+
 // DragSource(type, spec, collect)(Component);
 // DropTarget(type, spec, collect)(Component);
-List = DragSource(itemType.LIST, listSourceContract, collectDragProps)(List);
-List = DropTarget([itemType.LIST, itemType.CARD], listTargetContract, collectDropProps)(List);
+List = DragSource(itemType.LIST, listSourceSpec, collectDragProps)(List);
+List = DropTarget([itemType.LIST, itemType.CARD], listTargetSpec, collectDropProps)(List);
 
 export default List;

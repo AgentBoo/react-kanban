@@ -10,25 +10,25 @@ import Supralist from './Supralist';
 import Supracard from './Supracard';
 
 
-
 // ============================================================================ //
 // Component
 // ============================================================================ //
 class Board extends Component{
-  renderCard(card, i, listIdx){
+  renderCard(card, i, listIndex){
     const { id, text } = card;
 
     return(
-      <Supracard key={ id } id={ id } idx={ i } list={ listIdx } text={ text } />
+      <Supracard key={ id } id={ id } idx={ i } list={ listIndex } text={ text } />
     )
-  }
+  };
 
   renderList(list, i){
     const { id, label } = list;
 
+    const listIndex = i;
     const { cards } = list;
-    const listIdx = i;
-    const cardsload = cards.map((card, i) => this.renderCard(card, i, listIdx));
+    // arrow syntax to retain context of -this-
+    const cardsload = cards.map((card, i) => this.renderCard(card, i, listIndex));
 
     // cannot use key={ i }, because react-dnd issue 748
     return (
@@ -40,9 +40,10 @@ class Board extends Component{
 
 
   render(){
-    const { lists } = this.props
+    const { cardlists } = this.props
     // arrow syntax to retain context of -this-
-    const listsload = lists.map((list, i) => this.renderList(list, i))
+    const listsload = cardlists.map((list, i) => this.renderList(list, i))
+
 
     return (
       <main className="board">
@@ -58,9 +59,11 @@ class Board extends Component{
 // Redux + React DnD stuff
 // ============================================================================ //
 const mapStateToProps = function(state){
-  return { lists: state.lists }
+  return { cardlists: state.cardlists }
 };
 
+
+// ====================================== //
 
 // DragDropContext(backend)(Component);
 // connect(mapStateToProps, mapDispatchToProps)(Component)

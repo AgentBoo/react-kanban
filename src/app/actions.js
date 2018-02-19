@@ -1,6 +1,6 @@
 // constants
-import { actionType } from './../constants'
-const { SHIFT_LIST, SHIFT_CARD, TRANSIT_CARD } = actionType;
+import { actionType } from './constants'
+ const { SHIFT_LIST, SHIFT_CARD, TRANSIT_CARD } = actionType;
 
 
 // ============================================================================ //
