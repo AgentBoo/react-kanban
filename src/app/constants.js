@@ -2,8 +2,14 @@
 // NOTE: Redux
 export const actionType = {
   SHIFT_LIST   : 'SHIFT_LIST',
+  ADD_LIST     : 'ADD_LIST',
+  EDIT_LIST    : 'EDIT_LIST',
+  REMOVE_LIST  : 'REMOVE_LIST',
   SHIFT_CARD   : 'SHIFT_CARD',
-  TRANSIT_CARD : 'TRANSIT_CARD'
+  TRANSIT_CARD : 'TRANSIT_CARD',
+  ADD_CARD     : 'ADD_CARD',
+  EDIT_CARD    : 'EDIT_CARD',
+  REMOVE_CARD  : 'REMOVE_CARD'
 }
 
 

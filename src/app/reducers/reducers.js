@@ -1,16 +1,16 @@
 // NOTE: Will try immutability-helper here in the future
 // utilities
-import { updateObject, updateArray, retrieveIdx } from './utilities'
+import { retrieveItem, retrieveIdx, updateObject, updateArray, createList, createCard } from './utilities'
 
 
 // ============================================================================ //
-// Case reducers
+// case-reducers
 // ============================================================================ //
-// List Case reducer
+// List case-reducer
 export function shiftList(state, action){
   // do not have to worry about nested properties when reordering lists
-  const lists = Array.from(state.cardlists);
   const { originId, destinationIdx } = action;
+  const lists = Array.from(state.cardlists);
 
   const originIdx = retrieveIdx(originId, lists);
   const removed = lists.splice(originIdx, 1)[0];
@@ -21,7 +21,32 @@ export function shiftList(state, action){
 };
 
 
-// Card Case reducer
+// List case-reducer
+function addList(state, action){
+  const { listId, listLabel } = action;
+  const lists = Array.from(state.cardlists);
+
+  const addedList = createList(listId, listLabel);
+
+  return updateObject(state, { cardlists: lists.concat(addedList) });
+}
+
+
+// List case-reducer
+function editList(state, action){
+
+}
+
+
+// List case-reducer
+function removeList(state, action){
+
+}
+
+
+// ====================================== //
+
+// Card case-reducer
 export function shiftCard(state, action){
   // I do have to worry about updating nested properties
   const { sourceId, originIdx, targetIdx } = action;
@@ -38,7 +63,7 @@ export function shiftCard(state, action){
 };
 
 
-// Card Case reducer
+// Card case-reducer
 export function transitCard(state, action){
   // I do have to worry about updating nested properties
   const { sourceId, originIdx, targetIdx, destinationIdx } = action;
@@ -51,7 +76,7 @@ export function transitCard(state, action){
 
   destination.splice(targetIdx, 0, removed);
 
-  return Object.assign({}, state, {
+  return updateObject(state, {
     cardlists: state.cardlists.map(function(list, i){
       if(i === originIdx){
         return updateObject(list, { cards: origin })
@@ -64,3 +89,15 @@ export function transitCard(state, action){
   });
 
 };
+
+
+// Card case-reducer
+function addCard(state, action){}
+
+
+// Card case-reducer
+function editCard(state, action){}
+
+
+// Card case-reducer
+function removeCard(state, action){}
