@@ -1,4 +1,5 @@
 ## Modified trello-like kanban board
+[Demo](https://agentboo.github.io/react-kanban)
 * this project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 #### Dependencies
