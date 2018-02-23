@@ -1,5 +1,6 @@
 // constants
 import { actionType } from './constants';
+ // const { FETCH_DONORS } = actionType;
  const { SHIFT_LIST, ADD_LIST, EDIT_LIST, REMOVE_LIST } = actionType;
  const { SHIFT_CARD, TRANSIT_CARD, ADD_CARD, EDIT_CARD, REMOVE_CARD } = actionType;
 
@@ -7,6 +8,46 @@ import { actionType } from './constants';
 // ============================================================================ //
 // Actions
 // ============================================================================ //
+
+// NOTE: Network requests/fetch related
+// export function prefetchDonors(donors){
+//   return {
+//     type          : PREFETCH_DONORS,
+//     donors        : donors
+//   }
+// }
+//
+// export function receiveDonors(donors){
+//   return {
+//     type          : RECEIVE_DONORS,
+//     donors        : json.data.individuals.map(individual => individual.data ),
+//     receivedAt    : Date.now()
+//   }
+// }
+//
+// export function reqSuccess(){
+//   return {
+//     type          : RECEIVE_RESPONSE,
+//     status        : 'success',
+//     response      : {}
+//   }
+// }
+//
+// export function reqError(){
+//   return {
+//     type          : RECEIVE_RESPONSE,
+//     status        : 'error',
+//     error         : {}
+//   }
+// }
+//
+// export function reqTimeout(){
+//   return {
+//     type           : RECEIVE_REQUEST,
+//     status         : 'timeout',
+//     response       : {}
+//   }
+// }
 
 // NOTE: LISTS related
 // shiftList(origin.id, destination.idx)

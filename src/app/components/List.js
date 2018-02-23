@@ -81,7 +81,7 @@ const listTargetSpec = {
     const dragSource = monitor.getItem();
 
     // am I hovering over self? Ok, stop right here
-    if(dragSource.id === props.id){
+    if(monitor.getItemType() === itemType.LIST && dragSource.id === props.id){
       return
     }
 

@@ -9,7 +9,8 @@ export const actionType = {
   TRANSIT_CARD : 'TRANSIT_CARD',
   ADD_CARD     : 'ADD_CARD',
   EDIT_CARD    : 'EDIT_CARD',
-  REMOVE_CARD  : 'REMOVE_CARD'
+  REMOVE_CARD  : 'REMOVE_CARD',
+  // FETCH_DONORS : 'FETCH_DONORS'
 }
 
 
