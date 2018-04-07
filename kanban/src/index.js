@@ -1,19 +1,23 @@
-// create-react-app boilerplate
+// react
 import React from 'react';
 import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
+// redux
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import root from './store/root';
 // components
-import App from './app/App'
+import Root from './components/Root';
 // css
-import './index.css'
+import './index.css';
 
 
+const store = createStore(root);
+
+// NOTE: Inject react app into root div
 // ============================================================================ //
 ReactDOM.render(
-  <App />,
+  <Provider store={ store }>
+    <Root />
+  </Provider>,
   document.getElementById('root')
 );
-
-
-
-registerServiceWorker();

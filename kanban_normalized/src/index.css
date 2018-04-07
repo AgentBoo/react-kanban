@@ -1,5 +1,7 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+.pointer{
+  cursor: pointer;
+}
+
+.ochre{
+  background: linear-gradient(0.5turn, #ef8354, #f4d8cd)
 }

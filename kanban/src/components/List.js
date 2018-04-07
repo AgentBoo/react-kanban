@@ -1,9 +1,13 @@
 // react
 import React, { Component } from 'react';
-// dnd
+// react-dnd
 import { DragSource, DropTarget } from 'react-dnd';
 import { itemType } from './../constants';
+// redux
+import { connect } from 'react-redux';
+import { shiftList, transitCard } from './../actions';
 // components
+import List from './List';
 
 
 // ============================================================================ //
@@ -117,11 +121,12 @@ function collectDropProps(connector, monitor){
 
 
 
-// ====================================== //
-
+// ============================================================================ //
 // DragSource(type, spec, collect)(Component);
 // DropTarget(type, spec, collect)(Component);
+// connect(mapStateToProps, mapDispatchToProps)(Component);
 List = DragSource(itemType.LIST, listSourceSpec, collectDragProps)(List);
 List = DropTarget([itemType.LIST, itemType.CARD], listTargetSpec, collectDropProps)(List);
+List = connect(null, { shiftList, transitCard })(List);
 
 export default List;

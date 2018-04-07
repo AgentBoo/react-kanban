@@ -51,3 +51,19 @@ body {
 .low-opacity{
   opacity: 0.25;
 }
+
+.form-control.transparent{
+  background: transparent;
+  /* border: transparent; */
+  color: #fff;
+  outline: transparent;
+}
+
+.root-header{
+  background: pink;
+  display: flex;
+    align-items: baseline;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+  padding: 1em 2em 0.6em;
+}
