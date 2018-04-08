@@ -27,6 +27,9 @@ const collectionReducer = (state = {}, action) => {
     case actionType.REMOVE_CARD:
       return logbook.removeCardFromList(state, action);
 
+    case actionType.DESTROY_ALL:
+      return {}
+
     case actionType.REMOVE_LIST:
     case actionType.RECEIVE_INIT_DATA:
       return action.data.lists;
@@ -46,6 +49,9 @@ const indexReducer = (state = [], action) => {
     case actionType.DISPLACE_LIST:
       return kinematics.displaceList(state, action);
 
+    case actionType.DESTROY_ALL:
+      return []
+      
     case actionType.REMOVE_LIST:
     case actionType.RECEIVE_INIT_DATA:
       return Object.keys(action.data.lists);

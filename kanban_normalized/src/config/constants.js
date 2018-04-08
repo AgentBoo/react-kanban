@@ -15,7 +15,8 @@ export const actionType = {
   REMOVE_LIST       : 'REMOVE_LIST',
   ADD_CARD          : 'ADD_CARD',
   EDIT_CARD         : 'EDIT_CARD',
-  REMOVE_CARD       : 'REMOVE_CARD'
+  REMOVE_CARD       : 'REMOVE_CARD',
+  DESTROY_ALL       : 'DESTROY_ALL'
 };
 
 

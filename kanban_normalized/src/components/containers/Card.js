@@ -8,7 +8,6 @@ import { displaceCard, transitCard } from './../../store/actions/kinematics';
 import { editCard, removeCard } from './../../store/actions/api';
 // components
 import CardComponent from './../coupled/Card';
-import { Button, Glyphicon } from 'react-bootstrap';
 
 
 // ============================================================================ //

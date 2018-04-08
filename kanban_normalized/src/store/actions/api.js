@@ -44,10 +44,10 @@ export const removeList = (list) => (dispatch) =>
 
 
 // CARDS
-export const addCard = (luid) => (dispatch) =>
-  api('add/card').then((response) => dispatch({
+export const addCard = (card) => (dispatch) =>
+  api('add/card', card).then((response) => dispatch({
     type    : actionType.ADD_CARD,
-    luid    : luid,
+    luid    : card.luid,
     data    : normalize(response, schema.card)
   })
 );
@@ -66,3 +66,10 @@ export const removeCard = (card) => (dispatch) =>
     data    : normalize(response, schema.list)
   })
 );
+
+// BOARD
+export const destroyAll = () => (dispatch) =>
+  api('destroy/all').then((response) => dispatch({
+    type    : actionType.DESTROY_ALL,
+    data    : normalize(response.lists, schema.lists).entities
+  }))

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 // redux
 import { connect } from 'react-redux';
-import { addList } from './../../store/actions/api';
+import { addCard } from './../../store/actions/api';
 // components
 import { Button, Glyphicon } from 'react-bootstrap';
 
@@ -15,7 +15,7 @@ import { Button, Glyphicon } from 'react-bootstrap';
 // ============================================================================ //
 // Controlled one-field form with switchable visibility
 // ============================================================================ //
-export class ListAssistant extends Component{
+export class CardAssistant extends Component{
   constructor(props){
     super(props);
     this.activeInput = React.createRef();
@@ -60,7 +60,7 @@ export class ListAssistant extends Component{
     }
 
     if(this.state.value.length && this.passesValidation(this.state.value.trim())){
-       this.props.addList({ label: this.state.value})
+       this.props.addCard({ text: this.state.value, luid: this.props.luid })
     }
 
     this.cancelTyping()
@@ -71,8 +71,8 @@ export class ListAssistant extends Component{
   render(){
     if(!this.state.active){
       return (
-        <div className='list assistant'>
-          <div className='list-header form-group'>
+        <div className='card assistant'>
+          <div className='card-header form-group'>
             <span
                className='form-control transparent pointer'
                onClick={ this.startTyping }>
@@ -84,23 +84,24 @@ export class ListAssistant extends Component{
     } else {
       return (
         <form
-           className='list'
+           className='card'
            onSubmit={ this.handleSubmit }>
-           <div className='list-header form-group'>
-              <input
+           <div className='card-header form-group'>
+              <textarea
                  type='text'
                  className='form-control'
                  ref={ this.activeInput }
+                 rows='3'
                  placeholder={ this.props.text }
                  tabIndex='0'
                  value={ this.state.value }
                  onChange={ this.handleTyping }
                  onKeyDown={ this.handleKeyDown } />
             </div>
-            <div className='list-footer'>
+            <div className='card-footer'>
                <Button
                   bsStyle='success'
-                  onClick={ this.handleSubmit }> Save </Button>
+                  onClick={ this.handleSubmit }> Add </Button>
                <Button
                   bsStyle='primary'
                   onClick={ this.cancelTyping }>
@@ -114,13 +115,13 @@ export class ListAssistant extends Component{
 // end component
 };
 
-ListAssistant.defaultProps = {
+CardAssistant.defaultProps = {
   minlen    : 1,
   maxlen    : 256
 };
 
 
 // NOTE: Redux
-ListAssistant = connect(null, { addList })(ListAssistant);
+CardAssistant = connect(null, { addCard })(CardAssistant);
 
-export default ListAssistant;
+export default CardAssistant;

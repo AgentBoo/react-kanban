@@ -7,7 +7,7 @@ import React from 'react';
 // ============================================================================ //
 const Footer = () => (
   <footer className='root-footer'>
-    (Notice)
+    Kanban Demo
   </footer>
 );
 

@@ -1,18 +1,50 @@
 import { v4 } from 'node-uuid'
 
-const init = v4().slice(0,8);
+const list_1 = v4().slice(0,8);
+const list_2 = v4().slice(0,8);
 
 // fake api response/fake db
 export const db = {
   "lists": [
     {
-      "id": init,
-      "label": "Best Foods",
+      "id": list_1,
+      "label": "Citruses",
       "cards": [
         {
           "id": v4().slice(0,12),
-          "luid": init,
-          "text": 'Clementines'
+          "luid": list_1,
+          "text": 'Grapefruit'
+        },
+        {
+          "id": v4().slice(0,12),
+          "luid": list_1,
+          "text": 'Clementine'
+        },
+      ]
+    },
+    {
+      "id": list_2,
+      "label": "Berries",
+      "cards": [
+        {
+          "id": v4().slice(0,12),
+          "luid": list_2,
+          "text": 'Raspberry'
+        },
+        {
+          "id": v4().slice(0,12),
+          "luid": list_2,
+          "text": 'Cranberry'
+        },
+        {
+          "id": v4().slice(0,12),
+          "luid": list_2,
+          "text": 'Lingonberry'
+        },
+        {
+          "id": v4().slice(0,12),
+          "luid": list_2,
+          "text": 'Boysenberry'
         },
       ]
     }
@@ -31,7 +63,7 @@ export const api = (endpoint, item) =>
         case 'add/card':
           const add_card_res = {
             "id": v4().slice(0,12),
-            "luid": "default",
+            "luid": item.luid,
             "text": item.text
           }
           db.lists.forEach((list) => list.id === item.luid ? list.cards.push(add_card_res) : list)
@@ -81,7 +113,6 @@ export const api = (endpoint, item) =>
             db.lists[0].cards.push(card)
           })
           db.lists.splice(removeIdx, 1)
-          console.log(db.lists)
           return db.lists
 
         case 'edit/list':
@@ -96,6 +127,10 @@ export const api = (endpoint, item) =>
             }
           })
           return edited
+
+        case 'destroy/all':
+          db.lists = []
+          return { 'lists': db.lists }
 
         case 'all':
         default:

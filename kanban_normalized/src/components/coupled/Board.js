@@ -37,7 +37,7 @@ class Board extends Component {
 
         { listsload }
 
-        <ListAssistant text={ 'Add a new list' } />
+        <ListAssistant text={ 'Add a new list...' } />
       </section>
     )
   };

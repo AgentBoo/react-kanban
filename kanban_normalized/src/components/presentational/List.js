@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Card from './../containers/Card';
 import { Button, Glyphicon } from 'react-bootstrap';
 import { EditableLine } from './../toolbox/EditableLine';
+import { CardAssistant } from './../coupled/CardAssistant';
 
 
 // ============================================================================ //
@@ -28,22 +29,28 @@ class List extends Component {
     const { cards, label } = this.props;
     // arrow syntax to retain -this- context
     const cardsload = cards.length ? cards.map((card) => this.renderCard(card)) : null;
-    const draggingStyle = isDragging ? 'board-list shadow-in is-dragging' : 'board-list shadow-in';
+    const draggingStyle = isDragging ? 'list is-dragging' : 'list';
 
     return connectDragSource(
       connectDropTarget(
         <div className={ draggingStyle }>
-          <div className='board-list-header'>
+          <div className='list-header'>
             <EditableLine
-               altdecor='board-list-title pointsor'
-               decor='board-list-title editable'
+               altclassName='form-control transparent pointer'
+               className='form-control editable'
                value= { label }
                submitFn = { this.editList } />
+             <Button
+                bsSize='sm'
+                className='transparent'
+                onClick={ this.removeList }>
+                <Glyphicon glyph='remove' />
+             </Button>
           </div>
-          <div className='board-list-main'>
-            <p className="board-list-main-summary"> 20/20 </p>
-            { cardsload }
+          <div className='list-body'>
 
+            { cardsload }
+            <CardAssistant text='Add a new card...' luid={ this.props.id }/>
           </div>
         </div>
       )
